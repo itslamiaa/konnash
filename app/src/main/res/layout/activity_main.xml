@@ -1,19 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="#F5F5F5"
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="هنا يمكنك تسجيل جميع المصروفات والمداخيل اليومية👇"
+        android:textSize="18sp"
+        android:textColor="#333333"
+        android:gravity="center"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="20dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tab_expense"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="مصروف"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:background="#F44336"
+            android:padding="12dp" />
+
+        <TextView
+            android:id="@+id/tab_income"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="دخل"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:background="#4CAF50"
+            android:padding="12dp" />
+    </LinearLayout>
+
+</LinearLayout>
