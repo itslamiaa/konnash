@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <!-- Header -->
+    <!-- Header -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="دخل"
+            android:textColor="#2196F3"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="›"
+            android:textColor="#2196F3"
+            android:textSize="28sp" />
+
+    </RelativeLayout>
+
+    <!-- Amount Display -->
+    <!-- Amount Display -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="end"
+        android:paddingEnd="24dp"
+        android:paddingTop="40dp">
+
+        <TextView
+            android:id="@+id/tvAmountLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="دخل"
+            android:textColor="#AAAAAA"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0,00 دج."
+            android:textColor="#4CAF50"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvExpression"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#000000"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+    <!-- Confirm Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="0dp"
+        android:text="تأكيد"
+        android:backgroundTint="#C8E6C9"
+        android:textColor="#4CAF50"
+        android:textSize="16sp"
+        app:cornerRadius="2dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto"/>
+
+    <!-- Keyboard -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="1dp">
+
+        <!-- Row 1: AC, M+, M-, Backspace -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="-5dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAC"
+                style="@style/KeyboardButtonOp"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="AC"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMPlus"
+                style="@style/KeyboardButtonOp"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="M+"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMMinus"
+                style="@style/KeyboardButtonOp"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="M-"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBackspace"
+                style="@style/KeyboardButtonOp"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="⌫"/>
+        </LinearLayout>
+
+        <!-- Row 2: 7, 8, 9, /, % -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="-5dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn7"
+                style="@style/KeyboardButton"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="7"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn8"
+                style="@style/KeyboardButton"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="8"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn9"
+                style="@style/KeyboardButton"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="9"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDivide"
+                style="@style/KeyboardButtonOp"
+                android:layout_width="0dp"
+                android:layout_weight="0.32"
+                android:text="/"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPercent"
+                style="@style/KeyboardButtonOp"
+                android:layout_width="0dp"
+                android:layout_weight="0.32"
+                android:text="%"/>
+
+        </LinearLayout>
+        <!-- Row 3: 4, 5, 6, × -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="-5dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn4"
+                style="@style/KeyboardButton"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="4"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn5"
+                style="@style/KeyboardButton"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="5"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn6"
+                style="@style/KeyboardButton"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="6"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMultiply"
+                style="@style/KeyboardButtonOp"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="×"/>
+
+        </LinearLayout>
+
+        <!-- Row 4: 1, 2, 3, - -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="-5dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn1"
+                style="@style/KeyboardButton"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="1"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn2"
+                style="@style/KeyboardButton"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="2"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn3"
+                style="@style/KeyboardButton"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="3"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMinus"
+                style="@style/KeyboardButtonOp"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="−"/>
+        </LinearLayout>
+
+        <!-- Row 5: 0, ., =, + -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-5dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn0"
+                style="@style/KeyboardButton"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="0"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDot"
+                style="@style/KeyboardButton"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="."/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEquals"
+                style="@style/KeyboardButtonOp"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="="/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPlus"
+                style="@style/KeyboardButtonOp"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:text="+"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
