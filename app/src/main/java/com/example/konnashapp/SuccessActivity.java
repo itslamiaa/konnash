@@ -20,10 +20,14 @@ public class SuccessActivity extends AppCompatActivity {
         TextView tvAmount = findViewById(R.id.tvAmount);
         TextView tvDate = findViewById(R.id.tvDate);
 
-        tvAmount.setText(amount + " د.ج.");
+        if (amount != null) {
+            tvAmount.setText(amount + " د.ج.");
+        } else {
+            tvAmount.setText("0,00 د.ج.");
+        }
 
         // التاريخ والوقت
-        String date = new SimpleDateFormat("Aujourd'hui à HH:mm", Locale.getDefault()).format(new Date());
+        String date = "Aujourd'hui à " + new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
         tvDate.setText(date);
 
         // زر انهاء
@@ -33,5 +37,10 @@ public class SuccessActivity extends AppCompatActivity {
         findViewById(R.id.btnShare).setOnClickListener(v -> {
             // يمكن تضيف share functionality هنا
         });
+        // تروح بعد 2 ثواني
+        new android.os.Handler().postDelayed(() -> {
+            finish();
+        }, 2000);
     }
+
 }

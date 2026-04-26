@@ -7,7 +7,7 @@ import android.content.Intent;
 
 public class IncomeActivity extends AppCompatActivity {
 
-    TextView tvAmount, tvExpression;
+    TextView tvAmount, tvExpression ,tvError;
     String currentInput = "0";
     String operator = "";
     double memory = 0;
@@ -21,6 +21,7 @@ public class IncomeActivity extends AppCompatActivity {
 
         tvAmount = findViewById(R.id.tvAmount);
         tvExpression = findViewById(R.id.tvExpression);
+        tvError = findViewById(R.id.tvError);
 
         // أزرار الأرقام
         int[] numIds = {R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3,
@@ -85,6 +86,11 @@ public class IncomeActivity extends AppCompatActivity {
 
         // زر تأكيد
         findViewById(R.id.btnConfirm).setOnClickListener(v -> {
+            if (currentInput.equals("0") || currentInput.isEmpty()) {
+                tvError.setVisibility(android.view.View.VISIBLE);
+                return;
+            }
+            tvError.setVisibility(android.view.View.GONE);
             Intent intent = new Intent(IncomeActivity.this, SuccessActivity.class);
             intent.putExtra("amount", currentInput + ",00");
             startActivity(intent);

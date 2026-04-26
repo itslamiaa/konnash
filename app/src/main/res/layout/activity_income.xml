@@ -35,7 +35,6 @@
     </RelativeLayout>
 
     <!-- Amount Display -->
-    <!-- Amount Display -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -53,14 +52,35 @@
             android:textColor="#AAAAAA"
             android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/tvAmount"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0,00 دج."
-            android:textColor="#4CAF50"
-            android:textSize="40sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvError"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:text="!"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:background="@drawable/circle_red"
+                android:visibility="gone"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:id="@+id/tvAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0,00 د.ج."
+                android:textColor="#4CAF50"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvExpression"

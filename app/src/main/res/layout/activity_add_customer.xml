@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5"
+    android:padding="16dp"
+    android:layoutDirection="rtl">
+
+
+    <!-- Header -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="إضافة عميل"
+        android:navigationIcon="@drawable/ic_arrow_forward"
+        />
+
+    <!-- Name -->
+    <TextView
+        android:text="الاسم"
+        android:textStyle="bold"
+        android:textColor="#4A90E2"
+        android:layout_marginTop="16dp"
+        android:textDirection="rtl"
+        android:gravity="end"
+        android:textAlignment="viewStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:hint="الاسم"
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/edittext_bg"
+        android:padding="12dp"/>
+
+    <!-- Phone -->
+    <TextView
+        android:text="رقم الهاتف"
+        android:textStyle="bold"
+        android:textColor="#4A90E2"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:hint="رقم الهاتف"
+            android:background="@drawable/edittext_bg"
+            android:padding="12dp"/>
+
+    </LinearLayout>
+
+    <!-- Address -->
+    <TextView
+        android:text="العنوان"
+        android:textStyle="bold"
+        android:textColor="#4A90E2"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/edittext_bg">
+        
+
+        <EditText
+            android:hint="العنوان"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp"/>
+
+        
+    </RelativeLayout>
+    
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"/>
+
+    <!-- Categories -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="vertical"
+        android:background="@drawable/edittext_bg"
+        android:padding="12dp"
+        android:layoutDirection="rtl">
+
+        <!-- Top Row: Title (right) + Button (left) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_weight="1"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:gravity="end"
+                android:text="التصنيفات"
+                android:textAlignment="viewStart"
+                android:textColor="#4A90E2" />
+
+            <Button
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#E3F2FD"
+                android:drawableStart="@drawable/ic_add"
+                android:text="إضافة تصنيفات" />
+        </LinearLayout>
+
+        <!-- Description -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="استخدم تصنيفات مخصصة (مثل VIP، جملة، المنطقة) لتصنيف جهات الاتصال الخاصة بك للتجميع والتصفية بسرعة"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="#888888"
+            android:textAlignment="viewEnd"
+            android:gravity="end"/>
+
+    </LinearLayout>
+
+    <!-- Spacer -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- Confirm Button -->
+    <android.widget.Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/confirm_button"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:text="تأكيد"
+        android:textColor="#FFFFFF"
+        android:textSize="17dp" />
+</LinearLayout>
