@@ -1,5 +1,6 @@
 package com.example.konnashapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -97,9 +98,10 @@ public class MainActivity extends AppCompatActivity {
         btnAddSupplier.setOnClickListener(v ->
                 Toast.makeText(this, "إضافة مورد جديد", Toast.LENGTH_SHORT).show()
         );
-        btnAddCustomer.setOnClickListener(v ->
-                Toast.makeText(this, "إضافة عميل جديد", Toast.LENGTH_SHORT).show()
-        );
+        btnAddCustomer.setOnClickListener(v ->{
+            Intent intent = new Intent(MainActivity.this, CustomerActivity.class);
+            startActivity(intent);
+        });
 
         // ---- Screen 2 : دفتر النقدية ----
         // مصروف → white background (no color change)
@@ -108,9 +110,10 @@ public class MainActivity extends AppCompatActivity {
         );
 
         // دخل → white background (no color change)
-        btnIncome.setOnClickListener(v ->
-                Toast.makeText(this, "تسجيل دخل جديد", Toast.LENGTH_SHORT).show()
-        );
+        btnIncome.setOnClickListener(v ->{
+            Intent intent = new Intent(MainActivity.this, IncomeActivity.class);
+            startActivity(intent);
+        });
     }
 
     // =========================================================

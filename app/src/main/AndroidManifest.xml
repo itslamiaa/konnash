@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KonnashApp">
         <activity
-            android:name=".CustomerActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,9 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name='.MainActivity' android:exported="true"></activity>
+        <activity android:name='.CustomerActivity' android:exported="true"></activity>
         <activity android:name=".CategoryActivity" android:exported="true"></activity>
         <activity android:name=".AddressActivity" android:exported="true"></activity>
+        <activity android:name=".IncomeActivity" android:exported="true"></activity>
+        <activity android:name=".SuccessActivity" android:exported="true"></activity>
+        <activity android:name=".CategoriesMgmtActivity" android:exported="true"></activity>
 
     </application>
 
