@@ -1,6 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:layoutDirection="rtl"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:backgroundTint="@color/white">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textDirection="rtl">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="355dp"
+            android:src="@drawable/close"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="إدارة التصنيفات"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#4A90E2"
+            android:layout_centerInParent="true"/>
+
+
+    </RelativeLayout>
+
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="20dp" />
+
+
+    <android.widget.Button
+        android:id="@+id/add_category_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_add_new"
+        android:text="إضافة تصنيف جديد"
+        android:textColor="#FF4594e6"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="50dp" />
+
+    <ImageView
+        android:layout_width="361dp"
+        android:layout_height="182dp"
+        android:src="@drawable/add_category" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="20dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:text="لا توجد تصنيفات, أنشئ أول تصنيف لك "
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="@color/grey"
+        android:textSize="20dp"/>
+
+
+
+
+</LinearLayout>
