@@ -2,6 +2,7 @@ package com.example.konnashapp;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,9 +13,7 @@ public class CustomerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_customer);
-        MaterialToolbar toolbar = findViewById(R.id.toolbar);
 
-        toolbar.setNavigationOnClickListener(v -> finish());
 
     }
 }
