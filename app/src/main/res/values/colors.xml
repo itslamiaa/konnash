@@ -3,4 +3,47 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#FF4A90E2</color>
+    <color name="transparent">#00000000</color>
+    <color name="lightBlue">#FFd4e7fa</color>
+
+    <color name="grey">#FFa5adb5</color>
+    <color name="color1">#FF4b729c</color>
+    <color name="color2">#FFcca43f</color>
+    <color name="color3">#FFd97b52</color>
+    <color name="color4">#FF96342f</color>
+    <color name="color5">#FFb03382</color>
+    <color name="color6">#FF7337b0</color>
+    <color name="color7">#FF5837a6</color>
+    <color name="color8">#FF546799</color>
+    <color name="color9">#FF70629c</color>
+    <color name="color10">#FF3b387a</color>
+    <color name="color11">#FF3e5ab3</color>
+    <color name="color12">#FF56a1db</color>
+    <color name="color13">#FF55aab5</color>
+    <color name="color14">#FF1d5249</color>
+    <color name="color15">#FF39734c</color>
+    <color name="color16">#FF718f53</color>
+    <color name="color17">#FF656961</color>
+    <color name="color18">#FF453d35</color>
+
+    <integer-array name="palette">
+        <item>@color/color6</item>
+        <item>@color/color5</item>
+        <item>@color/color4</item>
+        <item>@color/color3</item>
+        <item>@color/color2</item>
+        <item>@color/color1</item>
+        <item>@color/color12</item>
+        <item>@color/color11</item>
+        <item>@color/color10</item>
+        <item>@color/color9</item>
+        <item>@color/color8</item>
+        <item>@color/color7</item>
+        <item>@color/color18</item>
+        <item>@color/color17</item>
+        <item>@color/color16</item>
+        <item>@color/color15</item>
+        <item>@color/color14</item>
+        <item>@color/color13</item>
+    </integer-array>
 </resources>
