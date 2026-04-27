@@ -42,7 +42,7 @@
         android:orientation="vertical"
         android:gravity="end"
         android:paddingEnd="24dp"
-        android:paddingTop="40dp">
+        android:paddingTop="8dp">
 
         <TextView
             android:id="@+id/tvAmountLabel"
@@ -90,12 +90,30 @@
             android:textColor="#000000"
             android:textSize="14sp" />
 
+        <EditText
+            android:id="@+id/tvAddNote"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:hint="Add note"
+            android:textColorHint="#AAAAAA"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:background="@drawable/border_rounded"
+            android:visibility="gone"
+            android:layout_marginTop="6dp"
+            android:inputType="text"
+            android:drawableEnd="@android:drawable/ic_menu_sort_by_size"/>
+
+
+
     </LinearLayout>
     <!-- Confirm Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnConfirm"
         android:layout_width="match_parent"
-        android:layout_height="62dp"
+        android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="0dp"
