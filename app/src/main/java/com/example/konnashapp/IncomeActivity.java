@@ -7,7 +7,8 @@ import android.content.Intent;
 
 public class IncomeActivity extends AppCompatActivity {
 
-    TextView tvAmount, tvExpression ,tvError;
+    TextView tvAmount, tvExpression ,tvError ;
+    android.widget.EditText tvAddNote;
     String currentInput = "0";
     String operator = "";
     double memory = 0;
@@ -22,6 +23,7 @@ public class IncomeActivity extends AppCompatActivity {
         tvAmount = findViewById(R.id.tvAmount);
         tvExpression = findViewById(R.id.tvExpression);
         tvError = findViewById(R.id.tvError);
+        tvAddNote = findViewById(R.id.tvAddNote);
 
         // أزرار الأرقام
         int[] numIds = {R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3,
@@ -64,6 +66,7 @@ public class IncomeActivity extends AppCompatActivity {
             isOperatorClicked = false;
             tvExpression.setText("");
             updateDisplay();
+            tvAddNote.setVisibility(android.view.View.GONE);
         });
 
         // Backspace
@@ -134,6 +137,12 @@ public class IncomeActivity extends AppCompatActivity {
         }
 
         updateDisplay();
+        // كي يكتب يبان Add note
+        if (!currentInput.equals("0")) {
+            tvAddNote.setVisibility(android.view.View.VISIBLE);
+        } else {
+            tvAddNote.setVisibility(android.view.View.GONE);
+        }
     }
 
     void setOperator(String op) {
