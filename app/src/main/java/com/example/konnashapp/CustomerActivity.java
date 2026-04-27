@@ -3,6 +3,7 @@ package com.example.konnashapp;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,7 @@ public class CustomerActivity extends AppCompatActivity {
 
         Button addCategory = findViewById(R.id.add_category_button);
         ImageView addressBtn = findViewById(R.id.btnAddress);
+        ImageView closeBtn = findViewById(R.id.closeBtn);
 
         addressBtn.setOnClickListener(v -> {
             Intent intent = new Intent(CustomerActivity.this , AddressActivity.class);
@@ -35,8 +37,12 @@ public class CustomerActivity extends AppCompatActivity {
         });
 
         addCategory.setOnClickListener(v -> {
-            Intent intent = new Intent(CustomerActivity.this, CategoryActivity.class);
+            Intent intent = new Intent(CustomerActivity.this, CategoriesMgmtActivity.class);
             startActivity(intent);
+        });
+
+        closeBtn.setOnClickListener(v -> {
+            finish();
         });
 
 

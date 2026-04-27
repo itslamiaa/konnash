@@ -1,49 +1,322 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="#F8FAFC"
+    tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="هنا يمكنك تسجيل جميع المصروفات والمداخيل اليومية👇"
-        android:textSize="18sp"
-        android:textColor="#333333"
-        android:gravity="center"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="20dp" />
-
+    <!-- ===== TOP BAR ===== -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/topBar"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <TextView
-            android:id="@+id/tab_expense"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:text="مصروف"
-            android:textSize="18sp"
-            android:textColor="#FFFFFF"
-            android:gravity="center"
-            android:background="#F44336"
-            android:padding="12dp" />
+        <!-- Left icons: YouTube + PC/Phone -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/tab_income"
+            <ImageView
+                android:id="@+id/youtubeIcon"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:src="@drawable/youtube_icon"
+                android:scaleType="centerInside" />
+
+            <ImageView
+                android:id="@+id/pcPhoneIcon"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:src="@drawable/pc_phone"
+                android:layout_marginStart="8dp"
+                android:scaleType="centerInside" />
+
+        </LinearLayout>
+
+        <!-- Spacer -->
+        <View
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:text="دخل"
-            android:textSize="18sp"
-            android:textColor="#FFFFFF"
-            android:gravity="center"
-            android:background="#4CAF50"
-            android:padding="12dp" />
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <!-- Right: matjer_icon + text "متجر" -->
+        <LinearLayout
+            android:id="@+id/matjerContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/icon_bg"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="متجر"
+                android:textSize="13sp"
+                android:textColor="#374151"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginEnd="6dp" />
+
+            <ImageView
+                android:id="@+id/titleIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/matjer_icon" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
-</LinearLayout>
+    <!-- ===== CENTER LOGO (book_logo for debt / page_logo2 for cash) ===== -->
+    <ImageView
+        android:id="@+id/bookLogo"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="24dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/book_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBar" />
+
+    <!-- ===== DESCRIPTION TEXT ===== -->
+    <TextView
+        android:id="@+id/descriptionText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:padding="16dp"
+        android:text="هنا يمكنك تسجيل جميع ديون العملاء و الموردين"
+        android:textAlignment="center"
+        android:textColor="#6B7280"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bookLogo" />
+
+    <!-- ===== DOWN ARROW ===== -->
+    <TextView
+        android:id="@+id/downArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="👇"
+        android:textSize="26sp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/descriptionText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ===== SCREEN 1 BUTTONS : دفتر الديون (rectangle) ===== -->
+    <LinearLayout
+        android:id="@+id/debtButtonsLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/downArrow">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddSupplier"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:text="إضافة مورد"
+            android:textColor="#6B99B3"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-medium"
+            app:backgroundTint="#E4F2FF"
+            app:cornerRadius="0dp"
+            app:strokeWidth="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddCustomer"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="إضافة عميل"
+            android:textColor="#6B99B3"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-medium"
+            app:backgroundTint="#E4F2FF"
+            app:cornerRadius="0dp"
+            app:strokeWidth="0dp" />
+
+    </LinearLayout>
+
+    <!-- ===== SCREEN 2 BUTTONS : دفتر النقدية (rectangle) ===== -->
+    <LinearLayout
+        android:id="@+id/cashButtonsLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/downArrow">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnExpense"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:text="مصروف"
+            android:textColor="#D67291"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-medium"
+            app:backgroundTint="#E5B6D6"
+            app:cornerRadius="0dp"
+            app:strokeWidth="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnIncome"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="دخل"
+            android:textColor="#6FA280"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-medium"
+            app:backgroundTint="#B2BCBB"
+            app:cornerRadius="0dp"
+            app:strokeWidth="0dp" />
+
+    </LinearLayout>
+
+    <!-- ===== BOTTOM NAVIGATION ===== -->
+    <LinearLayout
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:orientation="horizontal"
+        android:background="#FFFFFF"
+        android:elevation="8dp"
+        android:weightSum="3"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- المزيد -->
+        <LinearLayout
+            android:id="@+id/navMore"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/moreIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/more_icon"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:id="@+id/moreLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="المزيد"
+                android:textSize="12sp"
+                android:textColor="#9CA3AF"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif-medium" />
+
+        </LinearLayout>
+
+        <!-- دفتر النقدية — uses book_icon.png -->
+        <LinearLayout
+            android:id="@+id/navCashBook"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/walletIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/wallet_icon"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:id="@+id/cashLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="دفتر النقدية"
+                android:textSize="12sp"
+                android:textColor="#9CA3AF"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif-medium" />
+
+        </LinearLayout>
+
+        <!-- دفتر الديون — uses wallet_icon.jpeg -->
+        <LinearLayout
+            android:id="@+id/navDebtBook"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/bookIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/book_icon"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:id="@+id/debtLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="دفتر الديون"
+                android:textSize="12sp"
+                android:textColor="#3B82F6"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif-medium" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
