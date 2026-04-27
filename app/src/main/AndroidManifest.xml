@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KonnashApp">
         <activity
-            android:name=".CustomerActivity"
+            android:name=".IncomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
