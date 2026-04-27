@@ -15,16 +15,17 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="إضافة عميل"
+            android:text="name"
             android:textColor="#4A90E2"
             android:textSize="20dp"
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/closeBtn"
+            android:id="@+id/returnBtn"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"
@@ -57,12 +58,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="رقم الهاتف"
-        android:textColor="#4A90E2"
-        android:textStyle="bold"
         android:gravity="start|center_vertical"
+        android:text="رقم الهاتف"
         android:textAlignment="viewStart"
-        android:textDirection="ltr"/>
+        android:textColor="#4A90E2"
+        android:textDirection="ltr"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -76,13 +77,13 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/edittext_bg"
+            android:gravity="start|center_vertical"
             android:hint="رقم الهاتف"
+            android:includeFontPadding="false"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:gravity="start|center_vertical"
-            android:textSize="16sp"
-            android:includeFontPadding="false"
-            android:textDirection="ltr" />
+            android:textDirection="ltr"
+            android:textSize="16sp" />
 
         <com.hbb20.CountryCodePicker
             android:id="@+id/ccp"
@@ -108,9 +109,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal"
+        android:background="@drawable/edittext_bg"
         android:gravity="center_vertical"
-        android:background="@drawable/edittext_bg">
+        android:orientation="horizontal">
 
         <!-- Address input -->
         <EditText
@@ -127,16 +128,59 @@
             android:id="@+id/btnAddress"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_arrow_backward"
             android:clickable="true"
             android:focusable="true"
-            android:padding="8dp"/>
+            android:padding="8dp"
+            android:src="@drawable/ic_arrow_backward" />
     </LinearLayout>
+
+
     <Space
         android:layout_width="wrap_content"
         android:layout_height="20dp" />
 
-    <!-- Categories -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_bg"
+        android:layoutDirection="rtl"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/relation" />
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:text="تحويل لمورد"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="70dp"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/btnAddress"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_arrow_backward" />
+
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="20dp" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -164,6 +208,7 @@
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/add_category_button"
                 android:layout_width="wrap_content"
@@ -180,6 +225,8 @@
                 app:iconTint="@color/blue"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 />
+
+
         </LinearLayout>
 
         <!-- Description -->
@@ -202,15 +249,40 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <!-- Confirm Button -->
-    <android.widget.Button
-        android:id="@+id/confirmbtn"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/confirm_button"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:text="تأكيد"
-        android:textColor="@color/white"
-        android:textSize="17dp" />
+        android:orientation="horizontal">
+        <!-- delete Button -->
+        <android.widget.Button
+            android:id="@+id/deletebtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/lightRed"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="حذف"
+            android:textColor="@color/color4"
+            android:textSize="17dp" />
+
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="0dp" />
+        <!-- confirm Button -->
+        <android.widget.Button
+            android:id="@+id/confirmbtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/confirm_button"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="تأكيد"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+
+
+    </LinearLayout>
+
 </LinearLayout>
