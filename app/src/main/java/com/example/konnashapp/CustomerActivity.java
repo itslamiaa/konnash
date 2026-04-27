@@ -16,23 +16,37 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.hbb20.CountryCodePicker;
 
 public class CustomerActivity extends AppCompatActivity {
+    CountryCodePicker ccp;
+    EditText customerName;
+    EditText address;
+    EditText phoneNumber;
+    Button addCategory;
+    ImageView addressBtn;
+    ImageView closeBtn;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_customer);
-        CountryCodePicker countryCodePicker = findViewById(R.id.ccp);
-        EditText phoneNumber = findViewById(R.id.phoneNumber);
+        ccp = findViewById(R.id.ccp);
+        phoneNumber = findViewById(R.id.phoneNumber);
 
-        countryCodePicker.registerCarrierNumberEditText(phoneNumber);
+        ccp.registerCarrierNumberEditText(phoneNumber);
 
-        Button addCategory = findViewById(R.id.add_category_button);
-        ImageView addressBtn = findViewById(R.id.btnAddress);
-        ImageView closeBtn = findViewById(R.id.closeBtn);
+        if (ccp.isValidFullNumber()){
+            String fullNbr = ccp.getFullNumberWithPlus();
+        }
+        else {
+            phoneNumber.setError("رقم هاتف غير صحيح");
+        }
+
+        addCategory = findViewById(R.id.add_category_button);
+        addressBtn = findViewById(R.id.btnAddress);
+        closeBtn = findViewById(R.id.closeBtn);
 
         addressBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(CustomerActivity.this , AddressActivity.class);
+            Intent intent = new Intent(CustomerActivity.this, AddressActivity.class);
             startActivity(intent);
         });
 

@@ -41,6 +41,7 @@
         android:layout_height="20dp" />
 
 
+
     <android.widget.Button
         android:id="@+id/add_category_button"
         android:layout_width="match_parent"
@@ -54,23 +55,38 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp" />
 
-    <ImageView
-        android:layout_width="361dp"
-        android:layout_height="182dp"
-        android:src="@drawable/add_category" />
-
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="20dp" />
-
-    <TextView
+    <LinearLayout
+        android:id="@+id/categoriesContainer"
         android:layout_width="match_parent"
-        android:layout_height="39dp"
-        android:text="لا توجد تصنيفات, أنشئ أول تصنيف لك "
-        android:textAlignment="center"
-        android:textStyle="bold"
-        android:textColor="@color/grey"
-        android:textSize="20dp"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"/>
+
+
+    <LinearLayout
+        android:id="@+id/emptyState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/imagecategory"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:src="@drawable/add_category"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"/>
+
+        <TextView
+            android:id="@+id/nocategorytext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="لا توجد تصنيفات، أنشئ أول تصنيف لك"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textColor="@color/grey"
+            android:textSize="16sp"/>
+    </LinearLayout>
 
 
 
