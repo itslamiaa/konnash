@@ -143,5 +143,14 @@ public class KonnashDatabase extends SQLiteOpenHelper {
 
         return db.insert("Customer", null, values);
     }
+    // method to retrieve customer data from db and display it in the profile
+    public Cursor getCustomerById(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        return db.rawQuery(
+                "SELECT * FROM Customer WHERE id = ?",
+                new String[]{String.valueOf(id)}
+        );
+    }
 }
 
