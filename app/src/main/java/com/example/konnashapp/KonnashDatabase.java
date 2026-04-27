@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 public class KonnashDatabase extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Konnash_db";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
 
     public KonnashDatabase(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DB_VERSION);
@@ -38,7 +38,7 @@ public class KonnashDatabase extends SQLiteOpenHelper {
                         "full_address TEXT)"
          );
 
-        // the relation between customer and category
+        // the relation between customer and category (many to many)
         db.execSQL(
                 "CREATE TABLE CustomerCategory (" +
                         "customer_id INTEGER, " +
@@ -115,6 +115,33 @@ public class KonnashDatabase extends SQLiteOpenHelper {
         db.delete("Category","id=?",new String[]{String.valueOf(id)});
     }
 
-    // address method (customer)
+    // customer methods
+    // insert customer into db
+
+    public long insertCustomer(String name,String phone, String address,String city,String country){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("name",name);
+        values.put("phone",phone != null ? phone :"");
+        values.put("address",address != null ? address:"");
+        values.put("city",city != null ? city:"");
+        values.put("country",country !=null ?country:"");
+
+        String fullAddress = "";
+
+        if (address != null && !address.isEmpty())
+            fullAddress += address;
+
+        if (city != null && !city.isEmpty())
+            fullAddress += (fullAddress.isEmpty() ? "" : ", ") + city;
+
+        if (country != null && !country.isEmpty())
+            fullAddress += (fullAddress.isEmpty() ? "" : ", ") + country;
+
+        values.put("full_address", fullAddress);
+
+        return db.insert("Customer", null, values);
+    }
 }
 
