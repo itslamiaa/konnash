@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:padding="8dp">
+
+    <!-- Checkbox -->
+    <CheckBox
+        android:id="@+id/categoryCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:height="15dp"/>
+
+    <!-- Category pill -->
+    <TextView
+        android:id="@+id/categoryName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/categoryCheck"
+        android:background="@drawable/category_pill"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="6dp"
+        android:text="Vip"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/categoryDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/categoryName"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/categoryCheck"
+        android:text="0 عميل • 0 مورد"
+        android:textColor="#888888"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
+
+    <!-- Optional: 3 dots (keep if you still need edit/delete) -->
+    <ImageView
+        android:id="@+id/menuBtn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_more_vert" />
+
+</RelativeLayout>
+

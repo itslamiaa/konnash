@@ -15,18 +15,19 @@
         android:textDirection="rtl">
 
         <ImageView
-            android:id="@+id/closeBtn"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:id="@+id/returnBtn"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="355dp"
-            android:src="@drawable/close" />
+            android:src="@drawable/ic_arrow_forward" />
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="إضافة تصنيف جديد"
+            android:text="title"
             android:textColor="#4A90E2"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -52,43 +53,67 @@
         android:orientation="horizontal">
         <!-- Name input -->
         <EditText
-            android:id="@+id/editname"
-            android:hint="الاسم"
+            android:id="@+id/categoryName"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="50dp"
+            android:layout_weight="1"
             android:background="@drawable/edittext_bg"
-            android:padding="12dp"/>
+            android:hint="الاسم"
+            android:padding="12dp" />
+
         <Space
             android:layout_width="6dp"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
         <!-- Color preview -->
         <View
             android:id="@+id/pickColorBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="#4b729c"
             android:layout_marginEnd="8dp"
-            />
+            android:background="#4b729c" />
 
 
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
-    <!-- Confirm Button -->
-    <android.widget.Button
-        android:id="@+id/confirmbtn"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/confirm_button"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:text="تأكيد"
-        android:textColor="@color/white"
-        android:textSize="17dp" />
+        android:orientation="horizontal">
+        <!-- delete Button -->
+        <android.widget.Button
+            android:id="@+id/deletebtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/lightRed"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="حذف"
+            android:textColor="@color/color4"
+            android:textSize="17dp" />
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="0dp"/>
+        <!-- confirm Button -->
+        <android.widget.Button
+            android:id="@+id/confirmbtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/confirm_button"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="تأكيد"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+
+
+    </LinearLayout>
 
 
 </LinearLayout>
