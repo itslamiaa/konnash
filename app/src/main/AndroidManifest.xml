@@ -25,7 +25,7 @@
         <activity android:name=".SuccessActivity" android:exported="true"></activity>
         <activity android:name=".CategoriesMgmtActivity" android:exported="true"></activity>
         <activity android:name=".EditCategoryActivity" android:exported="true"></activity>
-        <activity android:name=".CustomerProfileActivity" android:exported="true"></activity>
+        <activity android:name=".EditProfileActivity" android:exported="true"></activity>
         <activity android:name=".CustomerActivity" android:exported="true" ></activity>
 
     </application>
