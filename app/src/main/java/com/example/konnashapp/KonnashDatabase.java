@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 public class KonnashDatabase extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Konnash_db";
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 4;
 
     public KonnashDatabase(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DB_VERSION);
@@ -46,6 +46,17 @@ public class KonnashDatabase extends SQLiteOpenHelper {
                         "PRIMARY KEY(customer_id, category_id))"
         );
 
+        // transactions table
+        db.execSQL(
+                "CREATE TABLE Transaction_table (" +
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "type TEXT, " +
+                        "amount REAL, " +
+                        "expression TEXT, " +
+                        "note TEXT, " +
+                        "date TEXT)"
+        );
+
     }
 
     @Override
@@ -54,6 +65,7 @@ public class KonnashDatabase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS Customer");
         db.execSQL("DROP TABLE IF EXISTS CustomerCategory");
         onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS Transaction_table");
     }
 
 
@@ -151,6 +163,19 @@ public class KonnashDatabase extends SQLiteOpenHelper {
                 "SELECT * FROM Customer WHERE id = ?",
                 new String[]{String.valueOf(id)}
         );
+    }
+
+    // inserer solde by amani
+
+    public long insertTransaction(String type, double amount, String expression, String note, String date) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("type", type);
+        values.put("amount", amount);
+        values.put("expression", expression);
+        values.put("note", note);
+        values.put("date", date);
+        return db.insert("Transaction_table", null, values);
     }
 }
 

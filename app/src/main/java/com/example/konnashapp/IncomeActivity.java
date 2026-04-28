@@ -94,6 +94,17 @@ public class IncomeActivity extends AppCompatActivity {
                 return;
             }
             tvError.setVisibility(android.view.View.GONE);
+
+            // حفظ في قاعدة البيانات
+            KonnashDatabase db = new KonnashDatabase(this);
+            String note = tvAddNote.getText().toString();
+            String expression = tvExpression.getText().toString();
+            String date = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm", java.util.Locale.getDefault()).format(new java.util.Date());
+            double amount = Double.parseDouble(currentInput);
+            db.insertTransaction("دخل", amount, expression, note, date);
+            android.util.Log.d("TEST", "تم الحفظ: " + amount);
+
+            // روح لصفحة النجاح
             Intent intent = new Intent(IncomeActivity.this, SuccessActivity.class);
             intent.putExtra("amount", currentInput + ",00");
             startActivity(intent);
