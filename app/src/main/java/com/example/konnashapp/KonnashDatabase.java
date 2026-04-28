@@ -64,8 +64,13 @@ public class KonnashDatabase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS Category");
         db.execSQL("DROP TABLE IF EXISTS Customer");
         db.execSQL("DROP TABLE IF EXISTS CustomerCategory");
-        onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS Transaction_table");
+        onCreate(db);
+    }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        onUpgrade(db, oldVersion, newVersion);
     }
 
 
@@ -166,7 +171,6 @@ public class KonnashDatabase extends SQLiteOpenHelper {
     }
 
     // inserer solde by amani
-
     public long insertTransaction(String type, double amount, String expression, String note, String date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
