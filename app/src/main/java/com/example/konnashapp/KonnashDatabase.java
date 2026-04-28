@@ -178,4 +178,3 @@ public class KonnashDatabase extends SQLiteOpenHelper {
         return db.insert("Transaction_table", null, values);
     }
 }
-
