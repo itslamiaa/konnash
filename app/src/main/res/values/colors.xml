@@ -27,6 +27,11 @@
     <color name="color17">#FF656961</color>
     <color name="color18">#FF453d35</color>
 
+    <color name="tab_active">#E8F0F8</color>
+    <color name="white2">#FFFFFF</color>
+    <color name="tab_text_active">#4a90d9</color>
+    <color name="tab_text_inactive">#888888</color>
+
     <integer-array name="palette">
         <item>@color/color6</item>
         <item>@color/color5</item>

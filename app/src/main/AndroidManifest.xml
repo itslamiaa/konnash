@@ -27,6 +27,7 @@
         <activity android:name=".EditCategoryActivity" android:exported="true"></activity>
         <activity android:name=".EditProfileActivity" android:exported="true"></activity>
         <activity android:name=".CustomerActivity" android:exported="true" ></activity>
+        <activity android:name=".Activitycustomer" />
 
     </application>
 
