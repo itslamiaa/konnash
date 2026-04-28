@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 public class KonnashDatabase extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Konnash_db";
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 4;
 
     public KonnashDatabase(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DB_VERSION);
@@ -153,4 +153,3 @@ public class KonnashDatabase extends SQLiteOpenHelper {
         );
     }
 }
-

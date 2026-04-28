@@ -5,9 +5,7 @@ import static android.graphics.Color.green;
 import static android.graphics.Color.red;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -25,40 +23,64 @@ public class CategoriesMgmtActivity extends AppCompatActivity {
 
     KonnashDatabase dbHelper;
     Cursor cursor;
+
     ImageView closeBtn;
+    Button confirmBtn;
     Button addCategoryButton;
+
     ImageView noCategory;
     TextView noCategoryText;
     LinearLayout categoriesList;
-    ArrayList<String> selectedCategories = new ArrayList<>();
 
+    ArrayList<Integer> selectedCategoryIds = new ArrayList<>();
+    ArrayList<String> selectedCategoryNames = new ArrayList<>();
+    ArrayList<String> selectedCategoryColors = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories_mgmt);
 
-        // database
         dbHelper = new KonnashDatabase(this);
 
-        // resources
         addCategoryButton = findViewById(R.id.add_category_button);
         closeBtn = findViewById(R.id.close);
+        categoriesList = findViewById(R.id.categoriesContainer);
+        confirmBtn = findViewById(R.id.confirmbtn);
         noCategory = findViewById(R.id.imagecategory);
         noCategoryText = findViewById(R.id.nocategorytext);
-        categoriesList = findViewById(R.id.categoriesContainer);
+        if (getIntent() != null) {
 
-        // moves to category activity
-        addCategoryButton.setOnClickListener(v -> {
-            Intent intent = new Intent(CategoriesMgmtActivity.this, CategoryActivity.class);
-            startActivity(intent);
-        });
+            ArrayList<Integer> ids =
+                    getIntent().getIntegerArrayListExtra("selected_ids");
 
+            ArrayList<String> names =
+                    getIntent().getStringArrayListExtra("selected_names");
 
-        // closes categories management
+            ArrayList<String> colors =
+                    getIntent().getStringArrayListExtra("selected_colors");
+
+            if (ids != null) selectedCategoryIds.addAll(ids);
+            if (names != null) selectedCategoryNames.addAll(names);
+            if (colors != null) selectedCategoryColors.addAll(colors);
+        }
+
+        addCategoryButton.setOnClickListener(v ->
+                startActivity(new Intent(this, CategoryActivity.class))
+        );
+
         closeBtn.setOnClickListener(v -> finish());
 
+        confirmBtn.setOnClickListener(v -> {
+            Intent resultIntent = new Intent();
 
+            resultIntent.putIntegerArrayListExtra("selected_ids", selectedCategoryIds);
+            resultIntent.putStringArrayListExtra("selected_names", selectedCategoryNames);
+            resultIntent.putStringArrayListExtra("selected_colors", selectedCategoryColors);
+
+            setResult(RESULT_OK, resultIntent);
+            finish();
+        });
     }
 
     @Override
@@ -67,8 +89,8 @@ public class CategoriesMgmtActivity extends AppCompatActivity {
         showCategories();
     }
 
-    // shows categories in db in categories mgmt interface
     public void showCategories() {
+
         categoriesList.removeAllViews();
         cursor = dbHelper.getAllCategories();
 
@@ -76,77 +98,76 @@ public class CategoriesMgmtActivity extends AppCompatActivity {
             noCategory.setVisibility(View.VISIBLE);
             noCategoryText.setVisibility(View.VISIBLE);
             categoriesList.setVisibility(View.GONE);
-            if (cursor != null) {
-                cursor.close();
+            confirmBtn.setVisibility(View.GONE);
+            return;
+        }
+
+        noCategory.setVisibility(View.GONE);
+        noCategoryText.setVisibility(View.GONE);
+        categoriesList.setVisibility(View.VISIBLE);
+        confirmBtn.setVisibility(View.VISIBLE);
+
+        while (cursor.moveToNext()) {
+
+            int categoryId = cursor.getInt(0);
+            String name = cursor.getString(1);
+            String color = cursor.getString(2);
+
+            View item = getLayoutInflater()
+                    .inflate(R.layout.name_category, categoriesList, false);
+
+            TextView categoryName = item.findViewById(R.id.categoryName);
+            CheckBox checkBox = item.findViewById(R.id.categoryCheck);
+            ImageView menuBtn = item.findViewById(R.id.menuBtn);
+
+            categoryName.setText(name);
+
+            int mainColor = Color.parseColor(color);
+            categoryName.setTextColor(mainColor);
+
+            int lightColor = lightenColor(mainColor);
+            if (categoryName.getBackground() != null) {
+                categoryName.getBackground().setTint(lightColor);
             }
-        } else {
-            noCategory.setVisibility(View.GONE);
-            noCategoryText.setVisibility(View.GONE);
-            categoriesList.setVisibility(View.VISIBLE);
 
-            while (cursor.moveToNext()) {
+            menuBtn.setOnClickListener(v -> {
+                Intent intent = new Intent(this, EditCategoryActivity.class);
+                intent.putExtra("category_id", categoryId);
+                intent.putExtra("category_name", name);
+                intent.putExtra("category_color", color);
+                startActivity(intent);
+            });
 
-                int categoryId = cursor.getInt(0);
-                String name = cursor.getString(1);
-                String color = cursor.getString(2);
+            checkBox.setOnCheckedChangeListener(null);
+            checkBox.setChecked(selectedCategoryIds.contains(categoryId));
 
-                int customerCount = dbHelper.getClientCountByCategory(categoryId);
-                int supplierCount = 0;
+            checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
 
-                View item = getLayoutInflater().inflate(R.layout.name_category, categoriesList, false);
-
-                TextView categoryName = item.findViewById(R.id.categoryName);
-                TextView categoryDetails = item.findViewById(R.id.categoryDetails);
-                ImageView menuBtn = item.findViewById(R.id.menuBtn);
-                categoryName.setText(name);
-
-                menuBtn.setOnClickListener(v -> {
-                    Intent intent = new Intent(CategoriesMgmtActivity.this, EditCategoryActivity.class);
-                    intent.putExtra("category_id", categoryId);
-                    intent.putExtra("category_name", name);
-                    intent.putExtra("category_color", color);
-                    startActivity(intent);
-                });
-
-                int mainColor = Color.parseColor(color);
-                categoryName.setTextColor(mainColor);
-                categoryDetails.setText(customerCount + " عميل • " + supplierCount + " مورد");
-
-                int lightColor = lightenColor(mainColor);
-                if (categoryName.getBackground() != null) {
-                    categoryName.getBackground().setTint(lightColor);
+                if (isChecked) {
+                    if (!selectedCategoryIds.contains(categoryId)) {
+                        selectedCategoryIds.add(categoryId);
+                        selectedCategoryNames.add(name);
+                        selectedCategoryColors.add(color);
+                    }
+                } else {
+                    selectedCategoryIds.remove((Integer) categoryId);
+                    selectedCategoryNames.remove(name);
+                    selectedCategoryColors.remove(color);
                 }
 
-                CheckBox checkBox = item.findViewById(R.id.categoryCheck);
+            });
 
-
-                // checkbox logic
-                checkBox.setOnCheckedChangeListener(null);
-                checkBox.setChecked(selectedCategories.contains(name));
-
-                checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    if (isChecked) {
-                        selectedCategories.add(name);
-                    } else {
-                        selectedCategories.remove(name);
-                    }
-                });
-                categoriesList.addView(item);
-
-
-            }
-            cursor.close();
+            categoriesList.addView(item);
         }
+
+        cursor.close();
     }
 
     private int lightenColor(int color) {
-        int red = (int) (red(color) + (255 - red(color)) * 0.7);
-        int green = (int) (green(color) + (255 - green(color)) * 0.7);
-        int blue = (int) (blue(color) + (255 - blue(color)) * 0.7);
+        int r = (int) (red(color) + (255 - red(color)) * 0.7);
+        int g = (int) (green(color) + (255 - green(color)) * 0.7);
+        int b = (int) (blue(color) + (255 - blue(color)) * 0.7);
 
-        return Color.rgb(red, green, blue);
-
+        return Color.rgb(r, g, b);
     }
-
-
 }
