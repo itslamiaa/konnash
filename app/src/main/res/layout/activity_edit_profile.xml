@@ -166,7 +166,6 @@
             android:layout_height="match_parent" />
 
         <ImageView
-            android:id="@+id/btnAddress"
             android:layout_width="40dp"
             android:layout_height="match_parent"
             android:clickable="true"
@@ -231,6 +230,7 @@
 
         <!-- Description -->
         <TextView
+            android:id="@+id/categoryHint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -239,6 +239,15 @@
             android:textDirection="rtl"
             android:textSize="12sp"
             android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/selectedCategoriesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="start"
+            android:layoutDirection="rtl"
+            android:orientation="horizontal"
+            android:weightSum="1"/>
 
 
     </LinearLayout>

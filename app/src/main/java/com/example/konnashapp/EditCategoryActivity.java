@@ -1,5 +1,6 @@
 package com.example.konnashapp;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -75,10 +76,25 @@ public class EditCategoryActivity extends AppCompatActivity {
         });
 
         // delete button
-        deleteBtn.setOnClickListener(v->{
-            dbHelper.deleteCategory(categoryId);
-            Toast.makeText(this, "تم الحذف بنجاح", Toast.LENGTH_SHORT).show();
-            finish();
+        deleteBtn.setOnClickListener(v -> {
+
+            Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.confirm_dialog);
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+            Button cancel = dialog.findViewById(R.id.cancelbtn);
+            Button delete = dialog.findViewById(R.id.deletebtn);
+
+            cancel.setOnClickListener(v1 -> dialog.dismiss());
+
+            delete.setOnClickListener(v12 -> {
+                dbHelper.deleteCategory(categoryId);
+                Toast.makeText(this, "تم الحذف بنجاح", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                finish();
+            });
+
+            dialog.show();
         });
 
     }
