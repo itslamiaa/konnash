@@ -152,7 +152,7 @@ public class CustomerActivity extends AppCompatActivity {
                 dbHelper.assignCategoryToCustomer((int) customerId, categoryId);
             }
 
-            Intent intent = new Intent(this, EditProfileActivity.class);
+            Intent intent = new Intent(this, PersonDetailActivity.class);
             intent.putExtra("id", customerId);
             startActivity(intent);
         });

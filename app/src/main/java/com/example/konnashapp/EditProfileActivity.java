@@ -32,7 +32,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
     int customerId;
 
-    // 🔥 SAME SYSTEM AS CustomerActivity
     ArrayList<Integer> selectedCategoryIds = new ArrayList<>();
     ArrayList<String> selectedCategoryNames = new ArrayList<>();
     ArrayList<String> selectedCategoryColors = new ArrayList<>();

@@ -19,6 +19,15 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <TextView
+                android:id="@+id/tvContactInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="اضغط هنا لمعلومات الاتصال"
+                android:textColor="#AAAAAA"
+                android:textSize="13sp" />
+
             <!-- ===== HEADER: Name + Arrow ===== -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -28,13 +37,6 @@
                 android:layout_marginBottom="4dp">
 
                 <!-- Arrow (left) -->
-                <ImageView
-                    android:id="@+id/btnBack"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/ic_arrow_right"
-                    android:scaleType="centerInside"
-                    android:tint="#4a90d9"/>
 
                 <!-- Spacer -->
                 <View
@@ -46,28 +48,28 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="end">
+                    android:gravity="end"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tvPersonName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="22sp"
                         android:textColor="#4a90d9"
-                        android:textStyle="bold"/>
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tvContactInfo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="اضغط هنا لمعلومات الاتصال"
-                        android:textSize="13sp"
-                        android:textColor="#AAAAAA"
-                        android:layout_marginTop="2dp"/>
+                    <ImageView
+                        android:id="@+id/btnBack"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_arrow_forward" />
 
                 </LinearLayout>
+
+
             </LinearLayout>
 
             <!-- ===== BALANCE CARD ===== -->

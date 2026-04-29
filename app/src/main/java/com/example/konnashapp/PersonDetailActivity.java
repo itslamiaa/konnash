@@ -23,10 +23,10 @@ public class PersonDetailActivity extends AppCompatActivity {
     private CardView btnTook, btnGave;
 
     // ─── Data passed from previous screen ────────────────────────────
-    private String personName  = "";
+    private String personName = "";
     private String personPhone = "";
-    private double totalTook   = 0.0;
-    private double totalGave   = 0.0;
+    private double totalTook = 0.0;
+    private double totalGave = 0.0;
 
     // ─── Simple transaction model ─────────────────────────────────────
     static class Transaction {
@@ -35,14 +35,14 @@ public class PersonDetailActivity extends AppCompatActivity {
 
         String note;
         double amount;
-        int    type; // TOOK or GAVE
+        int type; // TOOK or GAVE
         String date;
 
         Transaction(String note, double amount, int type, String date) {
-            this.note   = note;
+            this.note = note;
             this.amount = amount;
-            this.type   = type;
-            this.date   = date;
+            this.type = type;
+            this.date = date;
         }
     }
 
@@ -59,31 +59,38 @@ public class PersonDetailActivity extends AppCompatActivity {
 
         // Receive data from intent (sent from ActivityCustomer row click)
         if (getIntent() != null) {
-            personName  = getIntent().getStringExtra("person_name")  != null
+            personName = getIntent().getStringExtra("person_name") != null
                     ? getIntent().getStringExtra("person_name") : "—";
             personPhone = getIntent().getStringExtra("person_phone") != null
                     ? getIntent().getStringExtra("person_phone") : "";
-            totalTook   = getIntent().getDoubleExtra("person_took", 0.0);
-            totalGave   = getIntent().getDoubleExtra("person_gave", 0.0);
+            totalTook = getIntent().getDoubleExtra("person_took", 0.0);
+            totalGave = getIntent().getDoubleExtra("person_gave", 0.0);
         }
 
         bindViews();
-        setupHeader();
         setupActionButtons();
         setupBottomButtons();
         refreshUI();
+
+
+        // Tap subtitle → show contact info dialog
+        tvContactInfo.setOnClickListener(v -> {
+            Intent intent = new Intent(PersonDetailActivity.this, EditProfileActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     // ─── Bind views ───────────────────────────────────────────────────
     private void bindViews() {
-        tvPersonName         = findViewById(R.id.tvPersonName);
-        tvContactInfo        = findViewById(R.id.tvContactInfo);
-        tvBalance            = findViewById(R.id.tvBalance);
-        tvTransactionCount   = findViewById(R.id.tvTransactionCount);
-        layoutEmpty          = findViewById(R.id.layoutEmpty);
+        tvPersonName = findViewById(R.id.tvPersonName);
+        tvContactInfo = findViewById(R.id.tvContactInfo);
+        tvBalance = findViewById(R.id.tvBalance);
+        tvTransactionCount = findViewById(R.id.tvTransactionCount);
+        layoutEmpty = findViewById(R.id.layoutEmpty);
         transactionListContainer = findViewById(R.id.transactionListContainer);
-        btnTook              = findViewById(R.id.btnTook);
-        btnGave              = findViewById(R.id.btnGave);
+        btnTook = findViewById(R.id.btnTook);
+        btnGave = findViewById(R.id.btnGave);
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
     }
@@ -91,12 +98,7 @@ public class PersonDetailActivity extends AppCompatActivity {
     // ═════════════════════════════════════════════════════════════════
     //  HEADER
     // ═════════════════════════════════════════════════════════════════
-    private void setupHeader() {
-        tvPersonName.setText(personName);
 
-        // Tap subtitle → show contact info dialog
-        tvContactInfo.setOnClickListener(v -> showContactDialog());
-    }
 
     private void showContactDialog() {
         if (personPhone.isEmpty()) {
@@ -217,14 +219,14 @@ public class PersonDetailActivity extends AppCompatActivity {
                         return;
                     }
                     double amount = parseAmount(amountStr);
-                    String note   = etNote.getText().toString().trim();
-                    String date   = getCurrentDate();
+                    String note = etNote.getText().toString().trim();
+                    String date = getCurrentDate();
 
                     // ── TODO: your friend saves this to DB here ──
                     transactions.add(new Transaction(note, amount, type, date));
 
                     if (type == Transaction.TOOK) totalTook += amount;
-                    else                          totalGave += amount;
+                    else totalGave += amount;
 
                     refreshUI();
                 })
@@ -317,8 +319,11 @@ public class PersonDetailActivity extends AppCompatActivity {
     //  HELPERS
     // ═════════════════════════════════════════════════════════════════
     private double parseAmount(String s) {
-        try { return Double.parseDouble(s); }
-        catch (NumberFormatException e) { return 0.0; }
+        try {
+            return Double.parseDouble(s);
+        } catch (NumberFormatException e) {
+            return 0.0;
+        }
     }
 
     private String formatAmount(double amount) {
