@@ -1,6 +1,7 @@
 package com.example.konnashapp;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,46 +18,35 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 
 import java.util.ArrayList;
 import java.util.List;
+
 public class Activitycustomer extends AppCompatActivity {
 
-    // ─── UI References ───────────────────────────────────────────────
-    private LinearLayout tabClients, tabSuppliers;
-    private LinearLayout clientListContainer;
+    private LinearLayout tabClients, tabSuppliers, clientListContainer;
     private TextView tvTook, tvGave, tvCustomerCount;
     private EditText etSearch;
     private ExtendedFloatingActionButton fabAddClient;
 
-    // ─── State ───────────────────────────────────────────────────────
     private boolean isClientsTabActive = true;
     private final List<Person> allPersons = new ArrayList<>();
     private static final String CURRENCY = " د.ج";
     private int nextId = 1;
 
-    // ─── Simple Person model ──────────────────────────────────────────
+    // ── Person model ──────────────────────────────────────────────────
     static class Person {
         static final int TYPE_CLIENT   = 0;
         static final int TYPE_SUPPLIER = 1;
-
-        int    id;
-        String name;
-        String phone;
-        double took;
-        double gave;
-        int    type;
+        int id;
+        String name, phone;
+        double took, gave;
+        int type;
 
         Person(int id, String name, String phone, double took, double gave, int type) {
-            this.id    = id;
-            this.name  = name;
-            this.phone = phone;
-            this.took  = took;
-            this.gave  = gave;
-            this.type  = type;
+            this.id = id; this.name = name; this.phone = phone;
+            this.took = took; this.gave = gave; this.type = type;
         }
     }
 
-    // ═════════════════════════════════════════════════════════════════
-    //  onCreate
-    // ═════════════════════════════════════════════════════════════════
+    // ── onCreate ──────────────────────────────────────────────────────
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,16 +58,14 @@ public class Activitycustomer extends AppCompatActivity {
         setupFab();
         setupBottomNav();
 
-        // ── Demo data – your friend replaces this block with a DB query ──
+        // Demo data — replace with your DB later
         allPersons.add(new Person(nextId++, "أحمد بن علي",   "0551234567", 5000, 2000, Person.TYPE_CLIENT));
         allPersons.add(new Person(nextId++, "فاطمة الزهراء", "0661234567", 1500,    0, Person.TYPE_CLIENT));
         allPersons.add(new Person(nextId++, "مورد الجملة",   "0771234567",    0, 8000, Person.TYPE_SUPPLIER));
-        // ────────────────────────────────────────────────────────────────
 
         displayCurrentTab();
     }
 
-    // ─── Bind XML views ──────────────────────────────────────────────
     private void bindViews() {
         tabClients          = findViewById(R.id.tabClients);
         tabSuppliers        = findViewById(R.id.tabSuppliers);
@@ -89,9 +77,7 @@ public class Activitycustomer extends AppCompatActivity {
         fabAddClient        = findViewById(R.id.fabAddClient);
     }
 
-    // ═════════════════════════════════════════════════════════════════
-    //  TABS  العملاء / الموردين
-    // ═════════════════════════════════════════════════════════════════
+    // ── Tabs ──────────────────────────────────────────────────────────
     private void setupTabs() {
         tabClients.setOnClickListener(v   -> switchTab(true));
         tabSuppliers.setOnClickListener(v -> switchTab(false));
@@ -100,23 +86,14 @@ public class Activitycustomer extends AppCompatActivity {
     private void switchTab(boolean clientsActive) {
         isClientsTabActive = clientsActive;
 
-        int activeColor   = 0xFFE8F0F8;
-        int inactiveColor = 0xFFFFFFFF;
-        int activeText    = 0xFF4a90d9;
-        int inactiveText  = 0xFF888888;
-
-        // Clients tab
-        tabClients.setBackgroundColor(clientsActive ? activeColor : inactiveColor);
-        TextView tvClientsLabel = (TextView) tabClients.getChildAt(1);
-        tvClientsLabel.setTextColor(clientsActive ? activeText : inactiveText);
-        tvClientsLabel.setTypeface(null,
+        tabClients.setBackgroundColor(clientsActive ? 0xFFE8F0F8 : 0xFFFFFFFF);
+        ((TextView) tabClients.getChildAt(1)).setTextColor(clientsActive ? 0xFF4a90d9 : 0xFF888888);
+        ((TextView) tabClients.getChildAt(1)).setTypeface(null,
                 clientsActive ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
 
-        // Suppliers tab
-        tabSuppliers.setBackgroundColor(!clientsActive ? activeColor : inactiveColor);
-        TextView tvSuppliersLabel = (TextView) tabSuppliers.getChildAt(1);
-        tvSuppliersLabel.setTextColor(!clientsActive ? activeText : inactiveText);
-        tvSuppliersLabel.setTypeface(null,
+        tabSuppliers.setBackgroundColor(!clientsActive ? 0xFFE8F0F8 : 0xFFFFFFFF);
+        ((TextView) tabSuppliers.getChildAt(1)).setTextColor(!clientsActive ? 0xFF4a90d9 : 0xFF888888);
+        ((TextView) tabSuppliers.getChildAt(1)).setTypeface(null,
                 !clientsActive ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
 
         fabAddClient.setText(clientsActive ? "إضافة عميل" : "إضافة مورد");
@@ -124,9 +101,7 @@ public class Activitycustomer extends AppCompatActivity {
         displayCurrentTab();
     }
 
-    // ═════════════════════════════════════════════════════════════════
-    //  SEARCH
-    // ═════════════════════════════════════════════════════════════════
+    // ── Search ────────────────────────────────────────────────────────
     private void setupSearch() {
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -137,20 +112,16 @@ public class Activitycustomer extends AppCompatActivity {
         });
     }
 
-    // ═════════════════════════════════════════════════════════════════
-    //  FAB – Add person dialog
-    // ═════════════════════════════════════════════════════════════════
+    // ── FAB ───────────────────────────────────────────────────────────
     private void setupFab() {
         fabAddClient.setOnClickListener(v -> showAddDialog());
     }
 
     private void showAddDialog() {
         String label = isClientsTabActive ? "عميل" : "مورد";
-
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
-        int pad = dpToPx(16);
-        layout.setPadding(pad, pad, pad, pad);
+        layout.setPadding(dpToPx(16), dpToPx(16), dpToPx(16), dpToPx(16));
 
         EditText etName  = makeInput("الاسم *", false);
         EditText etPhone = makeInput("رقم الهاتف", false);
@@ -166,21 +137,15 @@ public class Activitycustomer extends AppCompatActivity {
                 .setTitle("إضافة " + label)
                 .setView(layout)
                 .setPositiveButton("حفظ", (dialog, which) -> {
-                    String name  = etName.getText().toString().trim();
-                    String phone = etPhone.getText().toString().trim();
-
+                    String name = etName.getText().toString().trim();
                     if (name.isEmpty()) {
                         Toast.makeText(this, "يرجى إدخال الاسم", Toast.LENGTH_SHORT).show();
                         return;
                     }
-
                     double took = parseAmount(etTook.getText().toString());
                     double gave = parseAmount(etGave.getText().toString());
-                    int    type = isClientsTabActive ? Person.TYPE_CLIENT : Person.TYPE_SUPPLIER;
-
-                    // ── TODO: replace with DB insert ──
-                    allPersons.add(new Person(nextId++, name, phone, took, gave, type));
-
+                    int type = isClientsTabActive ? Person.TYPE_CLIENT : Person.TYPE_SUPPLIER;
+                    allPersons.add(new Person(nextId++, name, etPhone.getText().toString().trim(), took, gave, type));
                     displayCurrentTab();
                     Toast.makeText(this, "تمت الإضافة", Toast.LENGTH_SHORT).show();
                 })
@@ -188,22 +153,20 @@ public class Activitycustomer extends AppCompatActivity {
                 .show();
     }
 
-    // ─── Long-press → Edit / Delete ──────────────────────────────────
+    // ── Edit / Delete ─────────────────────────────────────────────────
     private void showEditDeleteDialog(Person person) {
         new AlertDialog.Builder(this)
                 .setTitle(person.name)
                 .setItems(new String[]{"تعديل", "حذف"}, (dialog, which) -> {
                     if (which == 0) showEditDialog(person);
                     else            confirmDelete(person);
-                })
-                .show();
+                }).show();
     }
 
     private void showEditDialog(Person person) {
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
-        int pad = dpToPx(16);
-        layout.setPadding(pad, pad, pad, pad);
+        layout.setPadding(dpToPx(16), dpToPx(16), dpToPx(16), dpToPx(16));
 
         EditText etName  = makeInput("الاسم *", false);
         EditText etPhone = makeInput("رقم الهاتف", false);
@@ -229,12 +192,10 @@ public class Activitycustomer extends AppCompatActivity {
                         Toast.makeText(this, "يرجى إدخال الاسم", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    // ── TODO: replace with DB update ──
                     person.name  = name;
                     person.phone = etPhone.getText().toString().trim();
                     person.took  = parseAmount(etTook.getText().toString());
                     person.gave  = parseAmount(etGave.getText().toString());
-
                     displayCurrentTab();
                     Toast.makeText(this, "تم التعديل", Toast.LENGTH_SHORT).show();
                 })
@@ -247,7 +208,6 @@ public class Activitycustomer extends AppCompatActivity {
                 .setTitle("حذف")
                 .setMessage("هل تريد حذف " + person.name + "؟")
                 .setPositiveButton("نعم", (dialog, which) -> {
-                    // ── TODO: replace with DB delete ──
                     allPersons.remove(person);
                     displayCurrentTab();
                     Toast.makeText(this, "تم الحذف", Toast.LENGTH_SHORT).show();
@@ -256,22 +216,17 @@ public class Activitycustomer extends AppCompatActivity {
                 .show();
     }
 
-    // ═════════════════════════════════════════════════════════════════
-    //  DISPLAY
-    // ═════════════════════════════════════════════════════════════════
+    // ── Display ───────────────────────────────────────────────────────
     private void displayCurrentTab() {
         filterAndDisplay(etSearch.getText().toString().trim());
     }
 
     private void filterAndDisplay(String query) {
         int type = isClientsTabActive ? Person.TYPE_CLIENT : Person.TYPE_SUPPLIER;
-
         List<Person> filtered = new ArrayList<>();
         for (Person p : allPersons) {
             if (p.type != type) continue;
-            if (!query.isEmpty()
-                    && !p.name.contains(query)
-                    && !p.phone.contains(query)) continue;
+            if (!query.isEmpty() && !p.name.contains(query) && !p.phone.contains(query)) continue;
             filtered.add(p);
         }
         renderList(filtered);
@@ -279,31 +234,26 @@ public class Activitycustomer extends AppCompatActivity {
 
     private void renderList(List<Person> persons) {
         clientListContainer.removeAllViews();
-
         double totalTook = 0, totalGave = 0;
         for (Person p : persons) {
             totalTook += p.took;
             totalGave += p.gave;
             clientListContainer.addView(buildPersonRow(p));
         }
-
         tvTook.setText(formatAmount(totalTook));
         tvGave.setText(formatAmount(totalGave));
-
-        String header = isClientsTabActive
+        tvCustomerCount.setText(isClientsTabActive
                 ? "العملاء (" + persons.size() + ")"
-                : "الموردين (" + persons.size() + ")";
-        tvCustomerCount.setText(header);
+                : "الموردين (" + persons.size() + ")");
     }
 
-    // ─── Build one person row ─────────────────────────────────────────
+    // ── Build row ─────────────────────────────────────────────────────
     private View buildPersonRow(Person person) {
         CardView card = new CardView(this);
-        CardView.LayoutParams cardParams = new CardView.LayoutParams(
-                CardView.LayoutParams.MATCH_PARENT,
-                CardView.LayoutParams.WRAP_CONTENT);
-        cardParams.bottomMargin = dpToPx(8);
-        card.setLayoutParams(cardParams);
+        CardView.LayoutParams cp = new CardView.LayoutParams(
+                CardView.LayoutParams.MATCH_PARENT, CardView.LayoutParams.WRAP_CONTENT);
+        cp.bottomMargin = dpToPx(8);
+        card.setLayoutParams(cp);
         card.setRadius(dpToPx(12));
         card.setCardElevation(0);
         card.setCardBackgroundColor(0xFFFFFFFF);
@@ -313,12 +263,10 @@ public class Activitycustomer extends AppCompatActivity {
         row.setPadding(dpToPx(14), dpToPx(12), dpToPx(14), dpToPx(12));
         row.setGravity(android.view.Gravity.CENTER_VERTICAL);
 
-        // LEFT: balance block
-        LinearLayout leftBlock = new LinearLayout(this);
-        leftBlock.setOrientation(LinearLayout.VERTICAL);
-        leftBlock.setGravity(android.view.Gravity.START);
-
+        // LEFT: balance
         double balance = person.took - person.gave;
+        LinearLayout left = new LinearLayout(this);
+        left.setOrientation(LinearLayout.VERTICAL);
 
         TextView tvBalance = new TextView(this);
         tvBalance.setText(formatAmount(Math.abs(balance)));
@@ -326,22 +274,22 @@ public class Activitycustomer extends AppCompatActivity {
         tvBalance.setTypeface(null, android.graphics.Typeface.BOLD);
         tvBalance.setTextColor(balance >= 0 ? 0xFF4CAF50 : 0xFFF44336);
 
-        TextView tvBalanceLabel = new TextView(this);
-        tvBalanceLabel.setText(balance >= 0 ? "له عليك" : "عليه لك");
-        tvBalanceLabel.setTextSize(11);
-        tvBalanceLabel.setTextColor(0xFF888888);
+        TextView tvLabel = new TextView(this);
+        tvLabel.setText(balance >= 0 ? "له عليك" : "عليه لك");
+        tvLabel.setTextSize(11);
+        tvLabel.setTextColor(0xFF888888);
 
-        leftBlock.addView(tvBalance);
-        leftBlock.addView(tvBalanceLabel);
+        left.addView(tvBalance);
+        left.addView(tvLabel);
 
         // SPACER
         View spacer = new View(this);
         spacer.setLayoutParams(new LinearLayout.LayoutParams(0, 1, 1f));
 
         // RIGHT: name + phone
-        LinearLayout rightBlock = new LinearLayout(this);
-        rightBlock.setOrientation(LinearLayout.VERTICAL);
-        rightBlock.setGravity(android.view.Gravity.END);
+        LinearLayout right = new LinearLayout(this);
+        right.setOrientation(LinearLayout.VERTICAL);
+        right.setGravity(android.view.Gravity.END);
 
         TextView tvName = new TextView(this);
         tvName.setText(person.name);
@@ -354,17 +302,25 @@ public class Activitycustomer extends AppCompatActivity {
         tvPhone.setTextSize(12);
         tvPhone.setTextColor(0xFF888888);
 
-        rightBlock.addView(tvName);
-        rightBlock.addView(tvPhone);
+        right.addView(tvName);
+        right.addView(tvPhone);
 
-        row.addView(leftBlock);
+        row.addView(left);
         row.addView(spacer);
-        row.addView(rightBlock);
+        row.addView(right);
         card.addView(row);
 
-        card.setOnClickListener(v ->
-                Toast.makeText(this, person.name, Toast.LENGTH_SHORT).show());
+        // Click → open PersonDetailActivity
+        card.setOnClickListener(v -> {
+            Intent intent = new Intent(this, PersonDetailActivity.class);
+            intent.putExtra("person_name",  person.name);
+            intent.putExtra("person_phone", person.phone);
+            intent.putExtra("person_took",  person.took);
+            intent.putExtra("person_gave",  person.gave);
+            startActivity(intent);
+        });
 
+        // Long press → edit / delete
         card.setOnLongClickListener(v -> {
             showEditDeleteDialog(person);
             return true;
@@ -373,9 +329,7 @@ public class Activitycustomer extends AppCompatActivity {
         return card;
     }
 
-    // ═════════════════════════════════════════════════════════════════
-    //  BOTTOM NAVIGATION
-    // ═════════════════════════════════════════════════════════════════
+    // ── Bottom Nav ────────────────────────────────────────────────────
     private void setupBottomNav() {
         findViewById(R.id.navDebtBook).setOnClickListener(v ->
                 Toast.makeText(this, "دفتر الديون", Toast.LENGTH_SHORT).show());
@@ -385,21 +339,17 @@ public class Activitycustomer extends AppCompatActivity {
                 Toast.makeText(this, "المزيد", Toast.LENGTH_SHORT).show());
     }
 
-    // ═════════════════════════════════════════════════════════════════
-    //  HELPERS
-    // ═════════════════════════════════════════════════════════════════
+    // ── Helpers ───────────────────────────────────────────────────────
     private EditText makeInput(String hint, boolean numeric) {
         EditText et = new EditText(this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.bottomMargin = dpToPx(8);
         et.setLayoutParams(lp);
         et.setHint(hint);
         et.setGravity(android.view.Gravity.END);
-        if (numeric) et.setInputType(
-                android.text.InputType.TYPE_CLASS_NUMBER |
-                        android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        if (numeric) et.setInputType(android.text.InputType.TYPE_CLASS_NUMBER
+                | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
         return et;
     }
 
@@ -408,14 +358,12 @@ public class Activitycustomer extends AppCompatActivity {
         catch (NumberFormatException e) { return 0.0; }
     }
 
-    private String formatAmount(double amount) {
-        if (amount == (long) amount) return (long) amount + CURRENCY;
-        return amount + CURRENCY;
+    private String formatAmount(double v) {
+        return (v == (long) v ? (long) v : v) + CURRENCY;
     }
 
-    private String formatRaw(double amount) {
-        if (amount == (long) amount) return String.valueOf((long) amount);
-        return String.valueOf(amount);
+    private String formatRaw(double v) {
+        return v == (long) v ? String.valueOf((long) v) : String.valueOf(v);
     }
 
     private int dpToPx(int dp) {
