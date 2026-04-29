@@ -58,7 +58,6 @@ public class EditProfileActivity extends AppCompatActivity {
         categoriesContainer = findViewById(R.id.selectedCategoriesContainer);
         categoryHint = findViewById(R.id.categoryHint);
 
-        // ✅ get ID
         customerId = getIntent().getIntExtra("customer_id", -1);
 
         if (customerId == -1) {
@@ -69,10 +68,8 @@ public class EditProfileActivity extends AppCompatActivity {
         loadCustomerData(customerId);
         loadCustomerCategories(customerId);
 
-        // 🔙 return
         returnBtn.setOnClickListener(v -> finish());
 
-        // 🗑 DELETE
         deleteBtn.setOnClickListener(v -> {
 
             Dialog dialog = new Dialog(this);
@@ -94,7 +91,6 @@ public class EditProfileActivity extends AppCompatActivity {
             dialog.show();
         });
 
-        // 🔥 CATEGORY PICKER (SAME AS CustomerActivity)
         categoryLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -133,7 +129,6 @@ public class EditProfileActivity extends AppCompatActivity {
             categoryLauncher.launch(intent);
         });
 
-        // 💾 UPDATE CUSTOMER
         confirmBtn.setOnClickListener(v -> {
 
             String newName = name.getText().toString().trim();
@@ -147,14 +142,12 @@ public class EditProfileActivity extends AppCompatActivity {
 
             dbHelper.insertCustomer(newName, newPhone, newAddress, "", "");
 
-            // ⚠️ reset old relations
             dbHelper.getWritableDatabase().delete(
                     "CustomerCategory",
                     "customer_id=?",
                     new String[]{String.valueOf(customerId)}
             );
 
-            // 🔁 re-assign
             for (Integer catId : selectedCategoryIds) {
                 dbHelper.assignCategoryToCustomer(customerId, catId);
             }
@@ -163,7 +156,7 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
-    // ================= LOAD DATA =================
+
     private void loadCustomerData(int id) {
 
         Cursor cursor = dbHelper.getCustomerById(id);
@@ -178,7 +171,7 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
-    // ================= LOAD CATEGORIES =================
+
     private void loadCustomerCategories(int id) {
 
         Cursor cursor = dbHelper.getCategoriesByCustomerId(id);
@@ -203,7 +196,6 @@ public class EditProfileActivity extends AppCompatActivity {
         updateSelectedCategoriesUI();
     }
 
-    // ================= UI =================
     private void updateSelectedCategoriesUI() {
 
         categoriesContainer.removeAllViews();
@@ -249,7 +241,6 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
-    // ================= COLOR =================
     private int lightenColor(int color) {
         int r = (int) (Color.red(color) + (255 - Color.red(color)) * 0.7);
         int g = (int) (Color.green(color) + (255 - Color.green(color)) * 0.7);
