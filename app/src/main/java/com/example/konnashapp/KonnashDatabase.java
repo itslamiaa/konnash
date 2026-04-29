@@ -206,5 +206,34 @@ public class KonnashDatabase extends SQLiteOpenHelper {
         // 2. delete customer
         db.delete("Customer", "id=?", new String[]{String.valueOf(id)});
     }
+// ── ADD THESE 3 METHODS TO KonnashDatabase.java ──────────────────────
 
+    // 1. Get all customers
+    public Cursor getAllCustomers() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM Customer", null);
+    }
+
+    // 2. Get total amount by customer and transaction type (took / gave)
+    public double getTotalByCustomerAndType(int customerId, String type) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT SUM(amount) FROM Transaction_table WHERE expression = ? AND type = ?",
+                new String[]{String.valueOf(customerId), type}
+        );
+        double total = 0;
+        if (cursor.moveToFirst()) total = cursor.getDouble(0);
+        cursor.close();
+        return total;
+    }
+
+    // 3. Get all transactions for a specific customer
+    public Cursor getTransactionsByCustomer(int customerId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery(
+                "SELECT * FROM Transaction_table WHERE expression = ? ORDER BY date DESC",
+                new String[]{String.valueOf(customerId)}
+        );
+    }
 }
+

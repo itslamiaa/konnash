@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,93 +13,71 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class PersonDetailActivity extends AppCompatActivity {
 
-    // ─── UI ──────────────────────────────────────────────────────────
     private TextView tvPersonName, tvContactInfo, tvBalance, tvTransactionCount;
     private LinearLayout layoutEmpty, transactionListContainer;
     private CardView btnTook, btnGave;
 
-    // ─── Data passed from previous screen ────────────────────────────
-    private String personName = "";
+    private int    personId   = -1;
+    private String personName  = "";
     private String personPhone = "";
-    private double totalTook = 0.0;
-    private double totalGave = 0.0;
+    private double totalTook   = 0;
+    private double totalGave   = 0;
 
-    // ─── Simple transaction model ─────────────────────────────────────
-    static class Transaction {
-        static final int TOOK = 0;
-        static final int GAVE = 1;
-
-        String note;
-        double amount;
-        int type; // TOOK or GAVE
-        String date;
-
-        Transaction(String note, double amount, int type, String date) {
-            this.note = note;
-            this.amount = amount;
-            this.type = type;
-            this.date = date;
-        }
-    }
-
-    private final List<Transaction> transactions = new ArrayList<>();
+    private KonnashDatabase db;
     private static final String CURRENCY = " د.ج";
 
-    // ═════════════════════════════════════════════════════════════════
-    //  onCreate
-    // ═════════════════════════════════════════════════════════════════
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_detail);
 
-        // Receive data from intent (sent from ActivityCustomer row click)
+        db = new KonnashDatabase(this);
+
+        // Get data from Intent
         if (getIntent() != null) {
-            personName = getIntent().getStringExtra("person_name") != null
-                    ? getIntent().getStringExtra("person_name") : "—";
+            personId    = getIntent().getIntExtra("person_id", -1);
+            personName  = getIntent().getStringExtra("person_name") != null
+                    ? getIntent().getStringExtra("person_name") : "";
             personPhone = getIntent().getStringExtra("person_phone") != null
                     ? getIntent().getStringExtra("person_phone") : "";
-            totalTook = getIntent().getDoubleExtra("person_took", 0.0);
-            totalGave = getIntent().getDoubleExtra("person_gave", 0.0);
         }
 
         bindViews();
         setupActionButtons();
         setupBottomButtons();
         refreshUI();
-
-
-        // Tap subtitle → show contact info dialog
-        tvContactInfo.setOnClickListener(v -> {
-            Intent intent = new Intent(PersonDetailActivity.this, EditProfileActivity.class);
-            startActivity(intent);
-        });
-
     }
 
-    // ─── Bind views ───────────────────────────────────────────────────
     private void bindViews() {
-        tvPersonName = findViewById(R.id.tvPersonName);
-        tvContactInfo = findViewById(R.id.tvContactInfo);
-        tvBalance = findViewById(R.id.tvBalance);
-        tvTransactionCount = findViewById(R.id.tvTransactionCount);
-        layoutEmpty = findViewById(R.id.layoutEmpty);
+        tvPersonName           = findViewById(R.id.tvPersonName);
+        tvContactInfo          = findViewById(R.id.tvContactInfo);
+        tvBalance              = findViewById(R.id.tvBalance);
+        tvTransactionCount     = findViewById(R.id.tvTransactionCount);
+        layoutEmpty            = findViewById(R.id.layoutEmpty);
         transactionListContainer = findViewById(R.id.transactionListContainer);
-        btnTook = findViewById(R.id.btnTook);
-        btnGave = findViewById(R.id.btnGave);
+        btnTook                = findViewById(R.id.btnTook);
+        btnGave                = findViewById(R.id.btnGave);
 
+        tvPersonName.setText(personName);
+        tvContactInfo.setOnClickListener(v -> showContactDialog());
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
     }
 
-    // ═════════════════════════════════════════════════════════════════
-    //  HEADER
-    // ═════════════════════════════════════════════════════════════════
+    // ── 4 Action Buttons ─────────────────────────────────────────────
+    private void setupActionButtons() {
+        findViewById(R.id.btnReport).setOnClickListener(v ->
+                Toast.makeText(this, "التقرير قريباً", Toast.LENGTH_SHORT).show());
 
+        findViewById(R.id.btnShare).setOnClickListener(v -> shareSummary());
+        findViewById(R.id.btnCall).setOnClickListener(v -> callPerson());
+        findViewById(R.id.btnNote).setOnClickListener(v -> showNoteDialog());
+    }
 
     private void showContactDialog() {
         if (personPhone.isEmpty()) {
@@ -113,43 +92,21 @@ public class PersonDetailActivity extends AppCompatActivity {
                 .show();
     }
 
-    // ═════════════════════════════════════════════════════════════════
-    //  4 ACTION BUTTONS
-    // ═════════════════════════════════════════════════════════════════
-    private void setupActionButtons() {
-
-        // تقرير
-        findViewById(R.id.btnReport).setOnClickListener(v ->
-                Toast.makeText(this, "التقرير قريباً", Toast.LENGTH_SHORT).show());
-
-        // مشاركة
-        findViewById(R.id.btnShare).setOnClickListener(v -> shareSummary());
-
-        // اتصال
-        findViewById(R.id.btnCall).setOnClickListener(v -> callPerson());
-
-        // ملاحظة
-        findViewById(R.id.btnNote).setOnClickListener(v -> showNoteDialog());
-    }
-
     private void callPerson() {
         if (personPhone.isEmpty()) {
             Toast.makeText(this, "لا يوجد رقم هاتف", Toast.LENGTH_SHORT).show();
             return;
         }
-        Intent intent = new Intent(Intent.ACTION_DIAL,
-                Uri.parse("tel:" + personPhone));
-        startActivity(intent);
+        startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + personPhone)));
     }
 
     private void shareSummary() {
         double balance = totalTook - totalGave;
         String msg = "حساب " + personName + "\n"
-                + "أخذت: " + formatAmount(totalTook) + "\n"
+                + "أخذت: "  + formatAmount(totalTook) + "\n"
                 + "أعطيت: " + formatAmount(totalGave) + "\n"
                 + "الرصيد: " + formatAmount(Math.abs(balance))
                 + (balance >= 0 ? " (له عليك)" : " (عليه لك)");
-
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_TEXT, msg);
@@ -157,11 +114,10 @@ public class PersonDetailActivity extends AppCompatActivity {
     }
 
     private void showNoteDialog() {
-        android.widget.EditText etNote = new android.widget.EditText(this);
+        EditText etNote = new EditText(this);
         etNote.setHint("اكتب ملاحظة...");
         etNote.setGravity(android.view.Gravity.END);
-        int pad = dpToPx(16);
-        etNote.setPadding(pad, pad, pad, pad);
+        etNote.setPadding(dpToPx(16), dpToPx(16), dpToPx(16), dpToPx(16));
 
         new AlertDialog.Builder(this)
                 .setTitle("ملاحظة")
@@ -175,34 +131,30 @@ public class PersonDetailActivity extends AppCompatActivity {
                 .show();
     }
 
-    // ═════════════════════════════════════════════════════════════════
-    //  BOTTOM BUTTONS: أخذت / أعطيت
-    // ═════════════════════════════════════════════════════════════════
+    // ── Bottom Buttons: أخذت / أعطيت ─────────────────────────────────
     private void setupBottomButtons() {
-        btnTook.setOnClickListener(v -> showTransactionDialog(Transaction.TOOK));
-        btnGave.setOnClickListener(v -> showTransactionDialog(Transaction.GAVE));
+        btnTook.setOnClickListener(v -> showTransactionDialog("took"));
+        btnGave.setOnClickListener(v -> showTransactionDialog("gave"));
     }
 
-    private void showTransactionDialog(int type) {
-        String label = (type == Transaction.TOOK) ? "أخذت" : "أعطيت";
+    private void showTransactionDialog(String type) {
+        String label = type.equals("took") ? "أخذت" : "أعطيت";
 
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
-        int pad = dpToPx(16);
-        layout.setPadding(pad, pad, pad, pad);
+        layout.setPadding(dpToPx(16), dpToPx(16), dpToPx(16), dpToPx(16));
 
-        android.widget.EditText etAmount = new android.widget.EditText(this);
+        EditText etAmount = new EditText(this);
         etAmount.setHint("المبلغ (د.ج)");
         etAmount.setGravity(android.view.Gravity.END);
         etAmount.setInputType(android.text.InputType.TYPE_CLASS_NUMBER
                 | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.bottomMargin = dpToPx(8);
         etAmount.setLayoutParams(lp);
 
-        android.widget.EditText etNote = new android.widget.EditText(this);
+        EditText etNote = new EditText(this);
         etNote.setHint("ملاحظة (اختياري)");
         etNote.setGravity(android.view.Gravity.END);
 
@@ -219,89 +171,99 @@ public class PersonDetailActivity extends AppCompatActivity {
                         return;
                     }
                     double amount = parseAmount(amountStr);
-                    String note = etNote.getText().toString().trim();
-                    String date = getCurrentDate();
+                    String note   = etNote.getText().toString().trim();
+                    String date   = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                            .format(new Date());
 
-                    // ── TODO: your friend saves this to DB here ──
-                    transactions.add(new Transaction(note, amount, type, date));
+                    // Save to DB using insertTransaction
+                    db.insertTransaction(type, amount, personName, note, date);
 
-                    if (type == Transaction.TOOK) totalTook += amount;
-                    else totalGave += amount;
+                    if (type.equals("took")) totalTook += amount;
+                    else                     totalGave += amount;
 
                     refreshUI();
+                    Toast.makeText(this, "تم الحفظ", Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("إلغاء", null)
                 .show();
     }
 
-    // ═════════════════════════════════════════════════════════════════
-    //  REFRESH UI
-    // ═════════════════════════════════════════════════════════════════
+    // ── Refresh UI ────────────────────────────────────────────────────
     private void refreshUI() {
-        // Balance
+        // Recalculate from DB
+        if (personId != -1) {
+            totalTook = db.getTotalByCustomerAndType(personId, "took");
+            totalGave = db.getTotalByCustomerAndType(personId, "gave");
+        }
+
         double balance = totalTook - totalGave;
         tvBalance.setText(formatAmount(Math.abs(balance)));
         tvBalance.setTextColor(balance >= 0 ? 0xFF4CAF50 : 0xFFF44336);
 
-        // Transaction count
-        tvTransactionCount.setText("معاملات (" + transactions.size() + ")");
-
-        // Empty state
-        layoutEmpty.setVisibility(transactions.isEmpty() ? View.VISIBLE : View.GONE);
-
-        // Render list
         renderTransactions();
     }
 
     private void renderTransactions() {
         transactionListContainer.removeAllViews();
-        for (int i = transactions.size() - 1; i >= 0; i--) {
-            transactionListContainer.addView(buildTransactionRow(transactions.get(i)));
+
+        android.database.Cursor cursor = db.getTransactionsByCustomer(personId);
+        int count = 0;
+
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                count++;
+                String type   = cursor.getString(cursor.getColumnIndexOrThrow("type"));
+                double amount = cursor.getDouble(cursor.getColumnIndexOrThrow("amount"));
+                String note   = cursor.getString(cursor.getColumnIndexOrThrow("note"));
+                String date   = cursor.getString(cursor.getColumnIndexOrThrow("date"));
+                transactionListContainer.addView(buildTransactionRow(type, amount, note, date));
+            }
+            cursor.close();
         }
+
+        tvTransactionCount.setText("معاملات (" + count + ")");
+        layoutEmpty.setVisibility(count == 0 ? View.VISIBLE : View.GONE);
     }
 
-    // ─── Build one transaction row ────────────────────────────────────
-    private View buildTransactionRow(Transaction t) {
+    // ── Build transaction row ─────────────────────────────────────────
+    private View buildTransactionRow(String type, double amount, String note, String date) {
+        boolean isTook = type.equals("took");
+
         CardView card = new CardView(this);
         CardView.LayoutParams cp = new CardView.LayoutParams(
-                CardView.LayoutParams.MATCH_PARENT,
-                CardView.LayoutParams.WRAP_CONTENT);
+                CardView.LayoutParams.MATCH_PARENT, CardView.LayoutParams.WRAP_CONTENT);
         cp.bottomMargin = dpToPx(8);
         card.setLayoutParams(cp);
         card.setRadius(dpToPx(12));
         card.setCardElevation(0);
-        card.setCardBackgroundColor(
-                t.type == Transaction.TOOK ? 0xFFF0FFF4 : 0xFFFFF0F0);
+        card.setCardBackgroundColor(isTook ? 0xFFF0FFF4 : 0xFFFFF0F0);
 
         LinearLayout row = new LinearLayout(this);
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setPadding(dpToPx(14), dpToPx(12), dpToPx(14), dpToPx(12));
         row.setGravity(android.view.Gravity.CENTER_VERTICAL);
 
-        // LEFT: amount
         TextView tvAmount = new TextView(this);
-        tvAmount.setText(formatAmount(t.amount));
+        tvAmount.setText(formatAmount(amount));
         tvAmount.setTextSize(16);
         tvAmount.setTypeface(null, android.graphics.Typeface.BOLD);
-        tvAmount.setTextColor(t.type == Transaction.TOOK ? 0xFF4CAF50 : 0xFFF44336);
+        tvAmount.setTextColor(isTook ? 0xFF4CAF50 : 0xFFF44336);
 
-        // SPACER
         View spacer = new View(this);
         spacer.setLayoutParams(new LinearLayout.LayoutParams(0, 1, 1f));
 
-        // RIGHT: note + date
         LinearLayout right = new LinearLayout(this);
         right.setOrientation(LinearLayout.VERTICAL);
         right.setGravity(android.view.Gravity.END);
 
         TextView tvType = new TextView(this);
-        tvType.setText(t.type == Transaction.TOOK ? "أخذت" : "أعطيت");
+        tvType.setText(isTook ? "أخذت" : "أعطيت");
         tvType.setTextSize(14);
         tvType.setTypeface(null, android.graphics.Typeface.BOLD);
         tvType.setTextColor(0xFF333333);
 
         TextView tvNote = new TextView(this);
-        tvNote.setText(t.note.isEmpty() ? t.date : t.note + " · " + t.date);
+        tvNote.setText((note == null || note.isEmpty()) ? date : note + " · " + date);
         tvNote.setTextSize(11);
         tvNote.setTextColor(0xFF888888);
 
@@ -315,26 +277,14 @@ public class PersonDetailActivity extends AppCompatActivity {
         return card;
     }
 
-    // ═════════════════════════════════════════════════════════════════
-    //  HELPERS
-    // ═════════════════════════════════════════════════════════════════
+    // ── Helpers ───────────────────────────────────────────────────────
     private double parseAmount(String s) {
-        try {
-            return Double.parseDouble(s);
-        } catch (NumberFormatException e) {
-            return 0.0;
-        }
+        try { return Double.parseDouble(s); }
+        catch (NumberFormatException e) { return 0.0; }
     }
 
-    private String formatAmount(double amount) {
-        if (amount == (long) amount) return (long) amount + CURRENCY;
-        return amount + CURRENCY;
-    }
-
-    private String getCurrentDate() {
-        java.text.SimpleDateFormat sdf =
-                new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
-        return sdf.format(new java.util.Date());
+    private String formatAmount(double v) {
+        return (v == (long) v ? String.valueOf((long) v) : String.valueOf(v)) + CURRENCY;
     }
 
     private int dpToPx(int dp) {
